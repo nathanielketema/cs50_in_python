@@ -12,18 +12,29 @@ class CreditCard(Enum):
 
 
 def which_credit_card(credit_number: int) -> CreditCard:
-    pass
+    amex = re.compile(r"^(34|37)\d{13}$")  # Starts with 34/34 and is 15 digits long
+    mastercard = re.compile(r"^5[12345]\d{14}$")  # Starts with 5x,x={1,2,3,4,5} 16 long
+    visa = re.compile(r"^(4\d{15})|(4\d{12})$")  # Starts with 4, 13/16 digits long
+    str_credit_number = str(credit_number)
+
+    if amex.fullmatch(str_credit_number):
+        return CreditCard.AMEX
+    elif mastercard.fullmatch(str_credit_number):
+        return CreditCard.MASTERCARD
+    elif visa.fullmatch(str_credit_number):
+        return CreditCard.VISA
+    else:
+        return CreditCard.INVALID
 
 
 def validate_credit(credit_number: int) -> bool:
-    return False
+    return True
 
 
 def main():
     """
     Todo:
     - Validate if it's a valid credit card
-    - Identify which company it belongs to
     """
     while True:
         try:
