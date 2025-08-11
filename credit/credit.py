@@ -30,15 +30,12 @@ def main():
 
 class TestCredit(unittest.TestCase):
     def test_AMEX(self):
-        self.assertEqual(which_credit_card(78282246310005), CreditCard.AMEX)
-        self.assertEqual(which_credit_card(71449635398431), CreditCard.AMEX)
-        self.assertEqual(which_credit_card(78734493671000), CreditCard.AMEX)
         self.assertEqual(which_credit_card(378282246310005), CreditCard.AMEX)
         self.assertEqual(which_credit_card(371449635398431), CreditCard.AMEX)
 
     def test_MASTERCARD(self):
-        self.assertEqual(which_credit_card(2221000000000009), CreditCard.MASTERCARD)
         self.assertEqual(which_credit_card(2223000048400011), CreditCard.MASTERCARD)
+        self.assertEqual(which_credit_card(2221000000000009), CreditCard.MASTERCARD)
         self.assertEqual(which_credit_card(2223016768739313), CreditCard.MASTERCARD)
         self.assertEqual(which_credit_card(5555555555554444), CreditCard.MASTERCARD)
         self.assertEqual(which_credit_card(5105105105105100), CreditCard.MASTERCARD)
