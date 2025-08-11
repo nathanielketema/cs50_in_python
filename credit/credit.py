@@ -11,7 +11,7 @@ class CreditCard(Enum):
     INVALID = 4
 
 
-def match_credit_card(credit_number: int) -> CreditCard:
+def which_credit_card(credit_number: int) -> CreditCard:
     amex = re.compile(r"^(34|37)\d{13}$")  # Starts with 34/34 and is 15 digits long
     mastercard = re.compile(r"^5[12345]\d{14}$")  # Starts with 5x,x={1,2,3,4,5} 16 long
     visa = re.compile(r"^(4\d{15})|(4\d{12})$")  # Starts with 4, 13/16 digits long
@@ -27,23 +27,26 @@ def match_credit_card(credit_number: int) -> CreditCard:
         return CreditCard.INVALID
 
 
-def validate_checksum(credit_number: int) -> bool:
+def is_valid_checksum(credit_number: int) -> bool:
+    """
+    Validates checksum using Luhn's Algorithm
+    """
     sum = 0
     total = 0
-
-
-
 
     if total % 10 == 0:
         return True
     return False
 
 
+def match_credit_card(credit_number: int) -> CreditCard:
+    if not is_valid_checksum(credit_number):
+        return CreditCard.INVALID
+
+    return which_credit_card(credit_number)
+
+
 def main():
-    """
-    Todo:
-    - Validate if it's a valid credit card
-    """
     while True:
         try:
             credit_number: int = int(input("Number: "))
@@ -52,12 +55,8 @@ def main():
         else:
             break
 
-    if not validate_checksum(credit_number):
-        print(CreditCard.INVALID.name)
-        sys.exit(1)
-
-    verdict: CreditCard = match_credit_card(credit_number)
-    print(verdict.name)
+    result = match_credit_card(credit_number)
+    print(result.name)
 
 
 class TestCredit(unittest.TestCase):
