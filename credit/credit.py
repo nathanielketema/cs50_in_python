@@ -60,6 +60,21 @@ def main():
 
 
 class TestCredit(unittest.TestCase):
+    def test_checksum(self):
+        num = 378282246310005
+
+        res = (num % 10**15) // 10**14
+        self.assertEqual(res, 3)
+
+        res = (num % 10**15) // 10**13
+        self.assertEqual(res, 37)
+
+        res = (num % 10**14) // 10**13
+        self.assertEqual(res, 7)
+
+        res = (num % 10**5) // 10**4
+        self.assertEqual(res, 1)
+
     def test_AMEX(self):
         self.assertEqual(match_credit_card(378282246310005), CreditCard.AMEX)
         self.assertEqual(match_credit_card(371449635398431), CreditCard.AMEX)
