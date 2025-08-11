@@ -11,7 +11,7 @@ class CreditCard(Enum):
     INVALID = 4
 
 
-def which_credit_card(credit_number: int) -> CreditCard:
+def match_credit_card(credit_number: int) -> CreditCard:
     amex = re.compile(r"^(34|37)\d{13}$")  # Starts with 34/34 and is 15 digits long
     mastercard = re.compile(r"^5[12345]\d{14}$")  # Starts with 5x,x={1,2,3,4,5} 16 long
     visa = re.compile(r"^(4\d{15})|(4\d{12})$")  # Starts with 4, 13/16 digits long
@@ -27,8 +27,16 @@ def which_credit_card(credit_number: int) -> CreditCard:
         return CreditCard.INVALID
 
 
-def validate_credit(credit_number: int) -> bool:
-    return True
+def validate_checksum(credit_number: int) -> bool:
+    sum = 0
+    total = 0
+
+
+
+
+    if total % 10 == 0:
+        return True
+    return False
 
 
 def main():
@@ -44,29 +52,29 @@ def main():
         else:
             break
 
-    if not validate_credit(credit_number):
+    if not validate_checksum(credit_number):
         print(CreditCard.INVALID.name)
         sys.exit(1)
 
-    verdict: CreditCard = which_credit_card(credit_number)
+    verdict: CreditCard = match_credit_card(credit_number)
     print(verdict.name)
 
 
 class TestCredit(unittest.TestCase):
     def test_AMEX(self):
-        self.assertEqual(which_credit_card(378282246310005), CreditCard.AMEX)
-        self.assertEqual(which_credit_card(371449635398431), CreditCard.AMEX)
+        self.assertEqual(match_credit_card(378282246310005), CreditCard.AMEX)
+        self.assertEqual(match_credit_card(371449635398431), CreditCard.AMEX)
 
     def test_MASTERCARD(self):
-        self.assertEqual(which_credit_card(5555555555554444), CreditCard.MASTERCARD)
-        self.assertEqual(which_credit_card(5105105105105100), CreditCard.MASTERCARD)
+        self.assertEqual(match_credit_card(5555555555554444), CreditCard.MASTERCARD)
+        self.assertEqual(match_credit_card(5105105105105100), CreditCard.MASTERCARD)
 
     def test_VISA(self):
-        self.assertEqual(which_credit_card(4111111111111111), CreditCard.VISA)
-        self.assertEqual(which_credit_card(4012888888881881), CreditCard.VISA)
+        self.assertEqual(match_credit_card(4111111111111111), CreditCard.VISA)
+        self.assertEqual(match_credit_card(4012888888881881), CreditCard.VISA)
 
     def test_INVALID(self):
-        self.assertEqual(which_credit_card(1234567890), CreditCard.INVALID)
+        self.assertEqual(match_credit_card(1234567890), CreditCard.INVALID)
 
 
 if __name__ == "__main__":
