@@ -1,3 +1,4 @@
+import re
 import sys
 import unittest
 from enum import Enum
@@ -14,18 +15,30 @@ def which_credit_card(credit_number: int) -> CreditCard:
     pass
 
 
+def validate_credit(credit_number: int) -> bool:
+    return False
+
+
 def main():
     """
     Todo:
-    - Take user input
-    - Validate user input
     - Validate if it's a valid credit card
     - Identify which company it belongs to
     """
-    credit_number: int = int(input("Number: "))
+    while True:
+        try:
+            credit_number: int = int(input("Number: "))
+        except ValueError:
+            print("Invalid input. Please enter a number")
+        else:
+            break
 
-    result: CreditCard = which_credit_card(credit_number)
-    print(result.name)
+    if not validate_credit(credit_number):
+        print(CreditCard.INVALID.name)
+        sys.exit(1)
+
+    verdict: CreditCard = which_credit_card(credit_number)
+    print(verdict.name)
 
 
 class TestCredit(unittest.TestCase):
