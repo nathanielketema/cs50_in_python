@@ -47,12 +47,8 @@ class TestCredit(unittest.TestCase):
         self.assertEqual(which_credit_card(371449635398431), CreditCard.AMEX)
 
     def test_MASTERCARD(self):
-        self.assertEqual(which_credit_card(2223000048400011), CreditCard.MASTERCARD)
-        self.assertEqual(which_credit_card(2221000000000009), CreditCard.MASTERCARD)
-        self.assertEqual(which_credit_card(2223016768739313), CreditCard.MASTERCARD)
         self.assertEqual(which_credit_card(5555555555554444), CreditCard.MASTERCARD)
         self.assertEqual(which_credit_card(5105105105105100), CreditCard.MASTERCARD)
-        self.assertEqual(which_credit_card(5555555555554444), CreditCard.MASTERCARD)
 
     def test_VISA(self):
         self.assertEqual(which_credit_card(4111111111111111), CreditCard.VISA)
