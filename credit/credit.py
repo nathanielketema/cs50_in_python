@@ -33,6 +33,14 @@ def is_valid_checksum(credit_number: int) -> bool:
 
     To extract the nth digit(nth index) from a number:
     - (number % 10**index) // 10**(index - 1)
+
+    Another solution is to convert credit_number to a string 
+    and do simple slicing operations. I think this is much simpler 
+    than what I did.
+
+    Another neat trick I discovered:
+    - when a number > 9, the sum of its digits equals the original number minus 9
+    - For example: if digit = 7, then doubled = 14, and 1+4 = 5, which is the same as 14-9 = 5
     """
     # Number of digits in credit_number
     size = len(str(credit_number))
