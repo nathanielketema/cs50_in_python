@@ -30,13 +30,48 @@ def which_credit_card(credit_number: int) -> CreditCard:
 def is_valid_checksum(credit_number: int) -> bool:
     """
     Validates checksum using Luhn's Algorithm
+
+    To extract the nth digit(nth index) from a number:
+    - (number % 10**index) // 10**(index - 1)
     """
-    sum = 0
+    # Number of digits in credit_number
+    size = len(str(credit_number))
+
+    picked_digit_sum = []
+    unpicked_digit_sum = []
+    total_picked_sum = 0
+    total_unpicked_sum = 0
     total = 0
+
+    # Checksum starts from the second-to-last picked_digit and goes every other picked_digit
+    picked_index = 0
+    unpicked_index = 0
+    for i in range(1, size + 1):
+        picked_index = 2 * i
+        unpicked_index = 2 * i - 1
+
+        picked_digit = 2 * (
+            (credit_number % 10**picked_index) // 10 ** (picked_index - 1)
+        )
+        picked_digit_sum.append(picked_digit)
+
+        unpicked_digit = (credit_number % 10**unpicked_index) // 10 ** ( unpicked_index - 1)
+        unpicked_digit_sum.append(unpicked_digit)
+
+    for number in picked_digit_sum:
+        digit = (number % 100 // 10) + (number % 10)
+        total_picked_sum += digit
+
+    for number in unpicked_digit_sum:
+        digit = (number % 100 // 10) + (number % 10)
+        total_unpicked_sum += digit
+
+    total = total_picked_sum + total_unpicked_sum
 
     if total % 10 == 0:
         return True
-    return False
+    else:
+        return False
 
 
 def match_credit_card(credit_number: int) -> CreditCard:
@@ -62,6 +97,9 @@ def main():
 class TestCredit(unittest.TestCase):
     def test_checksum(self):
         num = 378282246310005
+
+        # number of digits in num
+        self.assertEqual(len(str(num)), 15)
 
         res = (num % 10**15) // 10**14
         self.assertEqual(res, 3)
